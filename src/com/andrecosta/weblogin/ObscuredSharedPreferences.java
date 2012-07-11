@@ -13,19 +13,9 @@ import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.util.Base64;
 
-/**
- * Warning, this gives a false sense of security.  If an attacker has enough access to
- * acquire your password store, then he almost certainly has enough access to acquire your
- * source binary and figure out your encryption key.  However, it will prevent casual
- * investigators from acquiring passwords, and thereby may prevent undesired negative
- * publicity.
- */
 public class ObscuredSharedPreferences implements SharedPreferences {
     protected static final String UTF8 = "utf-8";
-    private static final char[] SEKRIT = "sd]flçsd~flsd~f".toCharArray() ; // INSERT A RANDOM PASSWORD HERE.
-                                               // Don't use anything you wouldn't want to
-                                               // get out there if someone decompiled
-                                               // your app.
+    private static final char[] SEKRIT = "sd]flçsd~flsd~f".toCharArray();
 
 
     protected SharedPreferences delegate;
