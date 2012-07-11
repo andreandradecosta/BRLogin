@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:id="@+id/textView1" android:text="@string/connectioncategory_title" style="?android:attr/listSeparatorTextViewStyle" />
+    <CheckBox android:id="@+id/checkBoxWIFI" android:clickable="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:button="@android:drawable/btn_radio" android:text="@string/knownwifi_title" />
+    <CheckBox android:id="@+id/checkBoxInternet" android:clickable="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:button="@android:drawable/btn_radio" android:text="@string/internetconnection_title" />
+    <TextView android:textAppearance="?android:textAppearanceMedium" android:id="@+id/textView6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/textViewStat_title" />
+    <TextView android:textAppearance="?android:textAppearanceSmall" android:id="@+id/textViewStat" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <TextView android:id="@+id/textView2" android:text="@string/authcategory_title" style="?android:attr/listSeparatorTextViewStyle" />
+    <TextView android:textAppearance="?android:textAppearanceMedium" android:id="@+id/textView3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/username_title" />
+    <TextView android:textAppearance="?android:textAppearanceSmall" android:id="@+id/textViewUsername" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/username" />
+    <TextView android:textAppearance="?android:textAppearanceMedium" android:id="@+id/textView5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/password_title" />
+    <TextView android:textAppearance="?android:textAppearanceSmall" android:id="@+id/textViewPassword" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password" />
+    <Button android:layout_gravity="center_horizontal" android:id="@+id/buttonChange" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/changeAuthButton_title" android:onClick="showAuthDialog" />
+</LinearLayout>

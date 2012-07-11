@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BR Login</string>
+    <string name="connectioncategory_title">Connection Status</string>
+    <string name="knownwifi_title">Connected to LCM1104</string>
+    <string name="internetconnection_title">Connected to Internet</string>
+    <string name="authcategory_title">Authentication</string>
+    <string name="username_title">User</string>
+    <string name="username">username</string>
+    <string name="password_title">Password</string>
+    <string name="password" />
+    <string name="changeAuthButton_title">Change</string>
+    <string name="okButton_title">OK</string>
+    <string name="textViewStat_title">Authentications</string>
+</resources>
