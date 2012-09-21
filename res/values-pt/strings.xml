@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BR Login</string>
+    <string name="connectioncategory_title">Status da conexão</string>
+    <string name="knownwifi_title">Conexão com a LCM1104</string>
+    <string name="internetconnection_title">Conexão com a Internet</string>
+    <string name="authcategory_title">Auntenticação</string>
+    <string name="username_title">Chave</string>
+    <string name="username">username</string>
+    <string name="password_title">Senha</string>
+    <string name="password" />
+    <string name="changeAuthButton_title">Alterar</string>
+    <string name="okButton_title">OK</string>
+    <string name="textViewStat_title">Autenticações</string>
+    <string name="alertstatus_text">Falha na autenticação</string>
+</resources>

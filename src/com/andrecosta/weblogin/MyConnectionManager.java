@@ -113,13 +113,13 @@ public class MyConnectionManager {
         return result;
     }
     
-    public void authenticate() {
+    public void authenticate() throws AuthenticationException {
         String user = SettingsUtil.getUser(context);
         String password = SettingsUtil.getPassword(context);
         makeAuthenticationRequest(user, password);
     }
 
-    public void makeAuthenticationRequest(String user, String password) {
+    public void makeAuthenticationRequest(String user, String password) throws AuthenticationException {
         try {
             HostnameVerifier hostnameVerifier = SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 
@@ -142,7 +142,11 @@ public class MyConnectionManager {
             Log.d(MainActivity.LOG_TAG, "auth response:" + result);
         } catch (Exception e) {
             Log.e(MainActivity.LOG_TAG, "Exception:" + e.getMessage(), e);
+            throw new AuthenticationException();
         }        
+        if (!isNetConnectionPossible()) {
+            throw new AuthenticationException();
+        }
     }
 
 }

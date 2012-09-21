@@ -79,5 +79,21 @@ public class MainActivity extends FragmentActivity {
         ((TextView) findViewById(R.id.textViewPassword)).setText("**********");
         SettingsUtil.setUser(this, username);
         SettingsUtil.setPassword(this, password);
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                MyConnectionManager connMan = new MyConnectionManager(MainActivity.this);
+                try {
+                    connMan.authenticate();
+                    return connMan.isNetConnectionPossible();
+                } catch (Exception e) {}
+                return false;
+            }
+            
+            @Override
+            protected void onPostExecute(Boolean result) {
+                ((CheckBox) MainActivity.this.findViewById(R.id.checkBoxInternet)).setChecked(result);
+            }
+        }.execute((Void)null);
     }
 }

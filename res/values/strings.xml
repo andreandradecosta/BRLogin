@@ -12,4 +12,5 @@
     <string name="changeAuthButton_title">Change</string>
     <string name="okButton_title">OK</string>
     <string name="textViewStat_title">Authentications</string>
+    <string name="alertstatus_text">Authentication failure</string>
 </resources>

@@ -1,5 +1,8 @@
 package com.andrecosta.weblogin;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,8 +26,12 @@ public class WIFIEventReceiver extends BroadcastReceiver {
                     if (netInfo.getState() == NetworkInfo.State.CONNECTED && connMan.isConnectedToKnownWifi()) {
                         if (!connMan.isNetConnectionPossible()) {
                             Log.d(MainActivity.LOG_TAG, "\t going to authenticate");
-                            connMan.authenticate();
-                            SettingsUtil.incStat(context);
+                            try {
+                                connMan.authenticate();
+                                SettingsUtil.incStat(context);
+                            } catch (AuthenticationException e) {
+                                fireNotificaionAlert(context);
+                            }
                         }
                     }
                     return null;
@@ -32,6 +39,18 @@ public class WIFIEventReceiver extends BroadcastReceiver {
             }.execute((Void)null);
             
         }
+    }
+
+    protected void fireNotificaionAlert(Context context) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        CharSequence text = context.getText(R.string.alertstatus_text);
+        Notification notification = new Notification(R.drawable.ic_stat_alert, text, System.currentTimeMillis());
+        notification.flags = Notification.FLAG_AUTO_CANCEL; 
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        notification.setLatestEventInfo(context, "BR Login", text, pendingIntent);
+        notificationManager.notify(1, notification);
     }
 
   
