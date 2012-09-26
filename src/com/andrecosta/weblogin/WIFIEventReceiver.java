@@ -13,29 +13,39 @@ import android.util.Log;
 
 public class WIFIEventReceiver extends BroadcastReceiver {
 
+    private enum ConnectionAction {
+        CONNECTED, NOT_CONNECTED, NONE;
+    }
+    
     @Override
     public void onReceive(final Context context, final Intent intent) {
         Log.d(MainActivity.LOG_TAG, "WIFIEventReceiver.onReceive"); 
         if (SettingsUtil.isSettingsDefined(context)) {
-            new AsyncTask<Void, Void, Void>() {
+            new AsyncTask<Void, Void, ConnectionAction>() {
                 @Override
-                protected Void doInBackground(Void... params) {
+                protected ConnectionAction doInBackground(Void... params) {
                     NetworkInfo netInfo = (NetworkInfo) intent.getExtras().get(WifiManager.EXTRA_NETWORK_INFO);
                     Log.d(MainActivity.LOG_TAG, "\tState:" + netInfo.getState());
-                    MyConnectionManager connMan = new MyConnectionManager(context);
-                    if (netInfo.getState() == NetworkInfo.State.CONNECTED && connMan.isConnectedToKnownWifi()) {
-                        if (!connMan.isNetConnectionPossible()) {
+                    ConnectionHelper connectionHelper = new ConnectionHelper(context);
+                    if (netInfo.getState() == NetworkInfo.State.CONNECTED && connectionHelper.isConnectedToKnownWifi()) {
+                        if (!connectionHelper.isNetConnectionPossible()) {
                             Log.d(MainActivity.LOG_TAG, "\t going to authenticate");
-                            try {
-                                connMan.authenticate();
-                                SettingsUtil.incStat(context);
-                            } catch (AuthenticationException e) {
-                                fireNotificaionAlert(context);
-                            }
+                            connectionHelper.authenticate();
+                            return connectionHelper.isNetConnectionPossible()? ConnectionAction.CONNECTED: ConnectionAction.NOT_CONNECTED;
                         }
                     }
-                    return null;
+                    return ConnectionAction.NONE;
                 }
+                
+                @Override
+                protected void onPostExecute(ConnectionAction result) {
+                    if (result.equals(ConnectionAction.CONNECTED)) {
+                        SettingsUtil.incStat(context);
+                    } else if (result.equals(ConnectionAction.NOT_CONNECTED)) {
+                        fireNotificaionAlert(context);
+                    }
+                }
+                
             }.execute((Void)null);
             
         }

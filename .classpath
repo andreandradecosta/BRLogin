@@ -8,6 +8,7 @@
 			<attribute name="javadoc_location" value="file:/d:/Java/Android/android-sdk/extras/android/compatibility/v4/docs/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/jsoup-1.7.1.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

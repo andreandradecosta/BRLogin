@@ -30,15 +30,14 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
-public class MyConnectionManager {
+public class MyConnectionManagerOld {
 
-    private static final String URL_VISITANTES = "visitantes.petrobras.com.br";
     private static final String[] KNOWN_NETS = {"LCM1104"};
     private static final List<String> KNOWN_NETS_LIST = Arrays.asList(KNOWN_NETS);
     
     private Context context;
 
-    public MyConnectionManager(Context context) {
+    public MyConnectionManagerOld(Context context) {
         this.context = context;
     }
     
@@ -69,7 +68,7 @@ public class MyConnectionManager {
         try {
             String responseContent = makeTestHttpRequest();
             Log.d(MainActivity.LOG_TAG, "\tResponse received");
-            return !responseContent.contains(URL_VISITANTES);
+            return !responseContent.contains("PETROBRAS");
         } catch (Exception e) {
             Log.d(MainActivity.LOG_TAG, "\tError received:" + e.getMessage());
         }
@@ -113,14 +112,13 @@ public class MyConnectionManager {
         return result;
     }
     
-    public void authenticate() throws AuthenticationException {
+    public void authenticate() throws Exception {
         String user = SettingsUtil.getUser(context);
         String password = SettingsUtil.getPassword(context);
         makeAuthenticationRequest(user, password);
     }
 
-    public void makeAuthenticationRequest(String user, String password) throws AuthenticationException {
-        try {
+    public void makeAuthenticationRequest(String user, String password) throws Exception {
             HostnameVerifier hostnameVerifier = SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 
             DefaultHttpClient client = new DefaultHttpClient();
@@ -135,18 +133,12 @@ public class MyConnectionManager {
             // Set verifier     
             HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);            
             
-            HttpGet get = new HttpGet("https://visitantes.petrobras.com.br/login.html?username=" + user + "&password=" + password + "&buttonClicked=4");
+//            HttpGet get = new HttpGet("https://visitantes.petrobras.com.br/login.html?username=" + user + "&password=" + password + "&buttonClicked=4");
+            HttpGet get = new HttpGet("https://wfrj.petrobras.com.br:333/login.html?username=" + user + "&password=" + password + "&buttonClicked=4");
             HttpResponse response = httpClient.execute(get);
 
             String result = parseResponse(response.getEntity());
             Log.d(MainActivity.LOG_TAG, "auth response:" + result);
-        } catch (Exception e) {
-            Log.e(MainActivity.LOG_TAG, "Exception:" + e.getMessage(), e);
-            throw new AuthenticationException();
-        }        
-        if (!isNetConnectionPossible()) {
-            throw new AuthenticationException();
-        }
-    }
+     }
 
 }

@@ -4,6 +4,8 @@ BRLogin
 
 Histórico de alterações:
 
+2.2 - Alteração da forma de autenticação.
+
 2.2 - Exibe uma notificação quando não consegue autenticar.
 
 2.1 - Primeira versão públicada.

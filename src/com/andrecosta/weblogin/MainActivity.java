@@ -38,13 +38,13 @@ public class MainActivity extends FragmentActivity {
     }
 
     protected void setNetStatus() {
-        final MyConnectionManager connectionManager = new MyConnectionManager(this);
-        ((CheckBox) findViewById(R.id.checkBoxWIFI)).setChecked(connectionManager.isConnectedToKnownWifi());
+        final ConnectionHelper connectionHelper = new ConnectionHelper(this);
+        ((CheckBox) findViewById(R.id.checkBoxWIFI)).setChecked(connectionHelper.isConnectedToKnownWifi());
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
             protected Boolean doInBackground(Void... params) {
-                return connectionManager.isNetConnectionPossible();
+                return connectionHelper.isNetConnectionPossible();
             }
 
             @Override
@@ -82,7 +82,7 @@ public class MainActivity extends FragmentActivity {
         new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... params) {
-                MyConnectionManager connMan = new MyConnectionManager(MainActivity.this);
+                ConnectionHelper connMan = new ConnectionHelper(MainActivity.this);
                 try {
                     connMan.authenticate();
                     return connMan.isNetConnectionPossible();
