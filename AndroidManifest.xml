@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.andrecosta.weblogin"
-      android:versionCode="6"
-      android:versionName="2.4">
+<manifest package="com.andrecosta.weblogin"
+      android:versionCode="7"
+      android:versionName="2.4" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="14"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <application android:icon="@drawable/icon" android:label="@string/app_name">
         <activity android:name=".MainActivity"
                   android:label="@string/app_name" android:taskAffinity="" android:launchMode="singleTask" android:excludeFromRecents="true">
@@ -15,9 +14,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name="WIFIEventReceiver">
+        <receiver android:name="WIFIEventReceiver" android:exported="false">
             <intent-filter>
+                <!-- 
                 <action android:name="android.net.wifi.supplicant.CONNECTION_CHANGE"></action>
+                <action android:name="android.net.wifi.STATE_CHANGE"/>
+                 -->
+                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
 

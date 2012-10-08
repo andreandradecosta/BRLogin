@@ -6,8 +6,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -19,35 +17,30 @@ public class WIFIEventReceiver extends BroadcastReceiver {
     
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        Log.d(MainActivity.LOG_TAG, "WIFIEventReceiver.onReceive"); 
+        Log.d(MainActivity.LOG_TAG, "WIFIEventReceiver.onReceive:" + intent.getAction()); 
         if (SettingsUtil.isSettingsDefined(context)) {
-            new AsyncTask<Void, Void, ConnectionAction>() {
-                @Override
-                protected ConnectionAction doInBackground(Void... params) {
-                    NetworkInfo netInfo = (NetworkInfo) intent.getExtras().get(WifiManager.EXTRA_NETWORK_INFO);
-                    Log.d(MainActivity.LOG_TAG, "\tState:" + netInfo.getState());
-                    ConnectionHelper connectionHelper = new ConnectionHelper(context);
-                    if (netInfo.getState() == NetworkInfo.State.CONNECTED && connectionHelper.isConnectedToKnownWifi()) {
-                        if (!connectionHelper.isNetConnectionPossible()) {
-                            Log.d(MainActivity.LOG_TAG, "\t going to authenticate");
-                            connectionHelper.authenticate();
-                            return connectionHelper.isNetConnectionPossible()? ConnectionAction.CONNECTED: ConnectionAction.NOT_CONNECTED;
+                new AsyncTask<Void, Void, ConnectionAction>() {
+                    @Override
+                    protected ConnectionAction doInBackground(Void... params) {
+                        ConnectionHelper connectionHelper = new ConnectionHelper(context);
+                        if (connectionHelper.isConnectedToKnownWifi() && !connectionHelper.isNetConnectionPossible()) {
+                                Log.d(MainActivity.LOG_TAG, "\t going to authenticate");
+                                connectionHelper.authenticate();
+                                return connectionHelper.isNetConnectionPossible()? ConnectionAction.CONNECTED: ConnectionAction.NOT_CONNECTED;
+                        }
+                        return ConnectionAction.NONE;
+                    }
+                    
+                    @Override
+                    protected void onPostExecute(ConnectionAction result) {
+                        if (result.equals(ConnectionAction.CONNECTED)) {
+                            SettingsUtil.incStat(context);
+                        } else if (result.equals(ConnectionAction.NOT_CONNECTED)) {
+                            fireNotificaionAlert(context);
                         }
                     }
-                    return ConnectionAction.NONE;
-                }
-                
-                @Override
-                protected void onPostExecute(ConnectionAction result) {
-                    if (result.equals(ConnectionAction.CONNECTED)) {
-                        SettingsUtil.incStat(context);
-                    } else if (result.equals(ConnectionAction.NOT_CONNECTED)) {
-                        fireNotificaionAlert(context);
-                    }
-                }
-                
-            }.execute((Void)null);
-            
+                    
+                }.execute((Void)null);
         }
     }
 

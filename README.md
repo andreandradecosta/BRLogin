@@ -4,6 +4,10 @@ BRLogin
 
 Histórico de alterações:
 
+2.4 - Bugfixes
+
+2.3 - Alteração da forma de autenticação.
+
 2.3 - Alteração da forma de autenticação.
 
 2.2 - Exibe uma notificação quando não consegue autenticar.

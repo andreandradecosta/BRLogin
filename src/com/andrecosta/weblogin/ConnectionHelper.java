@@ -86,11 +86,11 @@ public class ConnectionHelper {
         HttpGet httpGet = new HttpGet("http://www.google.com");
         HttpParams httpParameters = new BasicHttpParams();
         // Set the timeout in milliseconds until a connection is established.
-        int timeoutConnection = 1000;
+        int timeoutConnection = 2000;
         HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
         // Set the default socket timeout (SO_TIMEOUT) 
         // in milliseconds which is the timeout for waiting for data.
-        int timeoutSocket = 1000;
+        int timeoutSocket = 2000;
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
         HttpClient httpclient = new DefaultHttpClient(httpParameters);
         HttpResponse response = httpclient.execute(httpGet);
@@ -106,6 +106,7 @@ public class ConnectionHelper {
             Elements result = extractFormAction(response);
             if (!result.isEmpty()) {
                 Element form = result.first();
+                Log.d(MainActivity.LOG_TAG, "Authenticating in " + form.toString());
                 String user = SettingsUtil.getUser(context);
                 String password = SettingsUtil.getPassword(context);
                 makeAuthenticationRequest(form, user, password);
