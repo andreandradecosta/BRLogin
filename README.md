@@ -4,6 +4,9 @@ BRLogin
 
 Histórico de alterações:
 
+2.5 - Passa a utilizar serviço para manter autenticação.
+O serviço só fica ativo enquanto estiver conectado na WIFI desejada. 
+
 2.4 - Bugfixes
 
 2.3 - Alteração da forma de autenticação.

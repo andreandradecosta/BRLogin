@@ -38,10 +38,10 @@ public class ConnectionHelper {
     }
     
     public boolean isConnectedToKnownWifi() {
-        Log.d(MainActivity.LOG_TAG, "Checking wifi");
+        Log.d(MainActivity.LOG_TAG, "isConnectedToKnownWifi");
         WifiInfo wifiInfo = getWifiInfo();
         if (wifiInfo != null) {
-            Log.d(MainActivity.LOG_TAG, "\tWiFiInfo:" + wifiInfo.toString());
+            Log.d(MainActivity.LOG_TAG, "   > WiFiInfo:" + wifiInfo.toString());
             return isNetNameKnown(wifiInfo);
         }
         return false;
@@ -68,17 +68,20 @@ public class ConnectionHelper {
     }
 
     public boolean isNetConnectionPossible() {
-        Log.d(MainActivity.LOG_TAG, "Checking network...");
+        Log.d(MainActivity.LOG_TAG, "isNetConnectionPossible");
         try {
             Document response = makeTestHttpRequest();
-            Log.d(MainActivity.LOG_TAG, "\tResponse received");
+            Log.d(MainActivity.LOG_TAG, "   > Response received");
             Elements result = response.select("title");
             if (!result.isEmpty()) {
-                return result.first().text().contains("Google");
+                boolean responseOK = result.first().text().contains("Google");
+                Log.d(MainActivity.LOG_TAG, "   > " + responseOK);
+                return responseOK;
             }
         } catch (Exception e) {
-            Log.d(MainActivity.LOG_TAG, "isNetConnectionPossible:" + e.getMessage());
+            Log.d(MainActivity.LOG_TAG, "   > " + e.getMessage());
         }
+        Log.d(MainActivity.LOG_TAG, "   > false");
         return false;
     }
 
@@ -101,18 +104,20 @@ public class ConnectionHelper {
 
     
     public void authenticate()  {
+        Log.d(MainActivity.LOG_TAG, "authenticate");
         try {
             Document response = makeTestHttpRequest();
             Elements result = extractFormAction(response);
             if (!result.isEmpty()) {
                 Element form = result.first();
-                Log.d(MainActivity.LOG_TAG, "Authenticating in " + form.toString());
+                Log.d(MainActivity.LOG_TAG, "   > " + form.attr("action"));
                 String user = SettingsUtil.getUser(context);
                 String password = SettingsUtil.getPassword(context);
                 makeAuthenticationRequest(form, user, password);
+                Log.d(MainActivity.LOG_TAG, "   > auth complete");
             }
        } catch (Exception e) {
-           Log.d(MainActivity.LOG_TAG, "authenticate:" + e.getMessage());
+           Log.d(MainActivity.LOG_TAG, "   > " + e.getMessage());
         }
     }
 
@@ -129,7 +134,6 @@ public class ConnectionHelper {
         post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
         httpClient.execute(post);
 //        String result = EntityUtils.toString(response.getEntity());
-        Log.d(MainActivity.LOG_TAG, "auth response");
     }
 
         

@@ -24,8 +24,8 @@ public class MainActivity extends FragmentActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         setNetStatus();
         ((TextView) findViewById(R.id.textViewUsername)).setText(SettingsUtil.getUser(this));
         if (!"".equals(SettingsUtil.getPassword(this))) {
@@ -38,6 +38,9 @@ public class MainActivity extends FragmentActivity {
     }
 
     protected void setNetStatus() {
+        ((CheckBox) findViewById(R.id.checkBoxWIFI)).setChecked(false);
+        ((CheckBox) findViewById(R.id.checkBoxInternet)).setChecked(false);
+        
         final ConnectionHelper connectionHelper = new ConnectionHelper(this);
         ((CheckBox) findViewById(R.id.checkBoxWIFI)).setChecked(connectionHelper.isConnectedToKnownWifi());
         new AsyncTask<Void, Void, Boolean>() {
