@@ -15,4 +15,4 @@ O serviço só fica ativo enquanto estiver conectado na WIFI desejada.
 
 2.2 - Exibe uma notificação quando não consegue autenticar.
 
-2.1 - Primeira versão públicada.
+2.1 - Primeira versão publicada.
