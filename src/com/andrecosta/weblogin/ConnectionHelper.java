@@ -1,7 +1,6 @@
 package com.andrecosta.weblogin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -28,8 +27,7 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 
 public class ConnectionHelper {
-    private static final String[] KNOWN_NETS = {"LCM1104"};
-    private static final List<String> KNOWN_NETS_LIST = Arrays.asList(KNOWN_NETS);
+    private static final String KNOWN_NETS = "LCM1104";
 
     private Context context;
 
@@ -56,7 +54,9 @@ public class ConnectionHelper {
     }
     
     private boolean isNetNameKnown(WifiInfo wifiInfo) {
-        return KNOWN_NETS_LIST.contains(wifiInfo.getSSID());
+        String ssid = wifiInfo.getSSID();
+        ssid = ssid.replace("\"", "");
+        return KNOWN_NETS.contains(ssid);
     }
 
     public String getSSDIName() {

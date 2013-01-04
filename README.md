@@ -4,6 +4,8 @@ BRLogin
 
 Histórico de alterações:
 
+2.6 - Correção para tratar casos que nome da rede é retornado entre aspas.
+
 2.5 - Passa a utilizar serviço para manter autenticação.
 O serviço só fica ativo enquanto estiver conectado na WIFI desejada. 
 
